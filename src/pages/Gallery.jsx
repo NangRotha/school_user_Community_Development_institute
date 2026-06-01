@@ -34,37 +34,38 @@ const Gallery = () => {
     }
   };
 
-  // Fixed getImageUrl function with timestamp to bypass cache
-  const getImageUrl = (imagePath) => {
-    if (!imagePath || typeof imagePath !== 'string') return null;
-    
-    // Add timestamp to bypass cache
-    const timestamp = new Date().getTime();
-    const separator = imagePath.includes('?') ? '&' : '?';
-    
-    let cleanPath = imagePath;
-    
-    // Replace spaces with %20
-    if (cleanPath.includes(' ')) {
-      cleanPath = cleanPath.replace(/ /g, '%20');
-    }
-    
-    // Remove duplicate slashes
-    cleanPath = cleanPath.replace(/\/+/g, '/');
-    
-    // Ensure path starts with / for local images
-    if (!cleanPath.startsWith('/') && !cleanPath.startsWith('http')) {
-      cleanPath = '/' + cleanPath;
-    }
-    
-    // If it's an external URL
-    if (cleanPath.startsWith('http://') || cleanPath.startsWith('https://')) {
-      return `${cleanPath}${separator}t=${timestamp}`;
-    }
-    
-    // Local URL
-    return `${import.meta.env.VITE_API_URL.replace('/api', '')}${cleanPath}${separator}t=${timestamp}`;
-  };
+   // Fixed getImageUrl function with timestamp to bypass cache
+   const getImageUrl = (imagePath) => {
+     if (!imagePath || typeof imagePath !== 'string') return null;
+     
+     // Add timestamp to bypass cache
+     const timestamp = new Date().getTime();
+     const separator = imagePath.includes('?') ? '&' : '?';
+     
+     let cleanPath = imagePath;
+     
+     // Replace spaces with %20
+     if (cleanPath.includes(' ')) {
+       cleanPath = cleanPath.replace(/ /g, '%20');
+     }
+     
+     // Remove duplicate slashes
+     cleanPath = cleanPath.replace(/\/+/g, '/');
+     
+     // Ensure path starts with / for local images
+     if (!cleanPath.startsWith('/') && !cleanPath.startsWith('http')) {
+       cleanPath = '/' + cleanPath;
+     }
+     
+     // If it's an external URL
+     if (cleanPath.startsWith('http://') || cleanPath.startsWith('https://')) {
+       return `${cleanPath}${separator}t=${timestamp}`;
+     }
+     
+     // Local URL
+     const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://school-backend-community-development.onrender.com/api';
+     return `${apiBaseUrl.replace('/api', '')}${cleanPath}${separator}t=${timestamp}`;
+   };
 
   const filteredGallery = activeCategory === 'all' 
     ? gallery 
