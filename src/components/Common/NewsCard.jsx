@@ -7,12 +7,13 @@ import { format } from 'date-fns';
 const NewsCard = ({ news }) => {
   const firstImage = news.images && news.images.length > 0 ? news.images[0].image_url : null;
 
-  const getImageUrl = (path) => {
-    if (!path) return null;
-    if (path.startsWith('http')) return path;
-    const assetBaseUrl = import.meta.env.VITE_API_URL.replace(/\/api$/, '');
-    return `${assetBaseUrl}${path}`;
-  };
+   const getImageUrl = (path) => {
+     if (!path) return null;
+     if (path.startsWith('http')) return path;
+     const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://school-backend-community-development.onrender.com/api';
+     const assetBaseUrl = apiBaseUrl.replace(/\/api$/, '');
+     return `${assetBaseUrl}${path}`;
+   };
 
   return (
     <Link to={`/news/${news.id}`} className="card group">

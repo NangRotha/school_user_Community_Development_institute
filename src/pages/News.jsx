@@ -27,16 +27,17 @@ const News = () => {
     }
   };
 
-  // Fixed getAssetUrl function with proper null checks
-  const getAssetUrl = (path) => {
-    if (!path || typeof path !== 'string') return null;
-    let cleanPath = path;
-    if (cleanPath.includes(' ')) {
-      cleanPath = cleanPath.replace(/ /g, '%20');
-    }
-    if (cleanPath.startsWith('http')) return cleanPath;
-    return `http://localhost:8000${cleanPath}`;
-  };
+   // Fixed getAssetUrl function with proper null checks
+   const getAssetUrl = (path) => {
+     if (!path || typeof path !== 'string') return null;
+     let cleanPath = path;
+     if (cleanPath.includes(' ')) {
+       cleanPath = cleanPath.replace(/ /g, '%20');
+     }
+     if (cleanPath.startsWith('http')) return cleanPath;
+     const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://school-backend-community-development.onrender.com/api';
+     return `${apiBaseUrl.replace('/api', '')}${cleanPath}`;
+   };
 
   if (loading) return <LoadingSpinner />;
 

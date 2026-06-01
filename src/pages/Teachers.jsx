@@ -31,37 +31,38 @@ const Teachers = () => {
     }
   };
 
-  // getImageUrl function - returns external URLs as is, adds timestamp to local URLs to bypass cache
-  const getImageUrl = (imagePath) => {
-    if (!imagePath || typeof imagePath !== 'string') return null;
-
-    // If it's an external URL, return as is
-    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-      return imagePath;
-    }
-
-    // Add timestamp to bypass cache for local images
-    const timestamp = new Date().getTime();
-    const separator = imagePath.includes('?') ? '&' : '?';
-
-    let cleanPath = imagePath;
-
-    // Replace spaces with %20
-    if (cleanPath.includes(' ')) {
-      cleanPath = cleanPath.replace(/ /g, '%20');
-    }
-
-    // Remove duplicate slashes
-    cleanPath = cleanPath.replace(/\/+/g, '/');
-
-    // Ensure path starts with / for local images
-    if (!cleanPath.startsWith('/') && !cleanPath.startsWith('http')) {
-      cleanPath = '/' + cleanPath;
-    }
-
-    // Local URL
-    return `http://localhost:8000${cleanPath}${separator}t=${timestamp}`;
-  };
+   // getImageUrl function - returns external URLs as is, adds timestamp to local URLs to bypass cache
+   const getImageUrl = (imagePath) => {
+     if (!imagePath || typeof imagePath !== 'string') return null;
+ 
+     // If it's an external URL, return as is
+     if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+       return imagePath;
+     }
+ 
+     // Add timestamp to bypass cache for local images
+     const timestamp = new Date().getTime();
+     const separator = imagePath.includes('?') ? '&' : '?';
+ 
+     let cleanPath = imagePath;
+ 
+     // Replace spaces with %20
+     if (cleanPath.includes(' ')) {
+       cleanPath = cleanPath.replace(/ /g, '%20');
+     }
+ 
+     // Remove duplicate slashes
+     cleanPath = cleanPath.replace(/\/+/g, '/');
+ 
+     // Ensure path starts with / for local images
+     if (!cleanPath.startsWith('/') && !cleanPath.startsWith('http')) {
+       cleanPath = '/' + cleanPath;
+     }
+ 
+     // Local URL
+     const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://school-backend-community-development.onrender.com/api';
+     return `${apiBaseUrl.replace('/api', '')}${cleanPath}${separator}t=${timestamp}`;
+   };
 
   if (loading) return <LoadingSpinner />;
 

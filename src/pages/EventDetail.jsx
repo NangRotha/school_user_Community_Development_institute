@@ -28,12 +28,13 @@ const EventDetail = () => {
     }
    };
 
-   const getImageUrl = (imagePath) => {
-     if (!imagePath) return null;
-     if (imagePath.startsWith('http')) return imagePath;
-     const assetBaseUrl = import.meta.env.VITE_API_URL.replace(/\/api$/, '');
-     return `${assetBaseUrl}${imagePath}`;
-   };
+    const getImageUrl = (imagePath) => {
+      if (!imagePath) return null;
+      if (imagePath.startsWith('http')) return imagePath;
+      const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://school-backend-community-development.onrender.com/api';
+      const assetBaseUrl = apiBaseUrl.replace(/\/api$/, '');
+      return `${assetBaseUrl}${imagePath}`;
+    };
 
    if (loading) return <LoadingSpinner />;
   if (!event) return <div className="pt-32 text-center">Event not found</div>;

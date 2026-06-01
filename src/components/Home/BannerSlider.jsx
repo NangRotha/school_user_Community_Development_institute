@@ -18,24 +18,26 @@ const BannerSlider = ({ banners }) => {
     pauseOnHover: true,
   };
 
-  // Fixed getImageUrl function with proper null checks
-  const getImageUrl = (imagePath) => {
-    if (!imagePath || typeof imagePath !== 'string') return null;
-    // Fix spaces in filename
-    let cleanPath = imagePath;
-    if (cleanPath.includes(' ')) {
-      cleanPath = cleanPath.replace(/ /g, '%20');
-    }
-    if (cleanPath.startsWith('http')) return cleanPath;
-    return `http://localhost:8000${cleanPath}`;
-  };
+   // Fixed getImageUrl function with proper null checks
+   const getImageUrl = (imagePath) => {
+     if (!imagePath || typeof imagePath !== 'string') return null;
+     // Fix spaces in filename
+     let cleanPath = imagePath;
+     if (cleanPath.includes(' ')) {
+       cleanPath = cleanPath.replace(/ /g, '%20');
+     }
+     if (cleanPath.startsWith('http')) return cleanPath;
+     const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://school-backend-community-development.onrender.com/api';
+     return `${apiBaseUrl.replace('/api', '')}${cleanPath}`;
+   };
 
-  // Fixed getVideoUrl function
-  const getVideoUrl = (videoPath) => {
-    if (!videoPath || typeof videoPath !== 'string') return null;
-    if (videoPath.startsWith('http')) return videoPath;
-    return `http://localhost:8000${videoPath}`;
-  };
+   // Fixed getVideoUrl function
+   const getVideoUrl = (videoPath) => {
+     if (!videoPath || typeof videoPath !== 'string') return null;
+     if (videoPath.startsWith('http')) return videoPath;
+     const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://school-backend-community-development.onrender.com/api';
+     return `${apiBaseUrl.replace('/api', '')}${videoPath}`;
+   };
 
   if (!banners || banners.length === 0) {
     return (

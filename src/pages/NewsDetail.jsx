@@ -61,37 +61,38 @@ const NewsDetail = () => {
     }
   };
 
-  // Fixed getImageUrl function - no dependency on env variable
-  const getImageUrl = (imagePath) => {
-    if (!imagePath || typeof imagePath !== 'string') return null;
-    
-    // If already an external URL, return as is
-    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-      return imagePath;
-    }
-    
-    // Clean the path
-    let cleanPath = imagePath;
-    
-    // Replace spaces with %20
-    if (cleanPath.includes(' ')) {
-      cleanPath = cleanPath.replace(/ /g, '%20');
-    }
-    
-    // Remove duplicate slashes
-    cleanPath = cleanPath.replace(/\/+/g, '/');
-    
-    // Ensure path starts with /
-    if (!cleanPath.startsWith('/')) {
-      cleanPath = '/' + cleanPath;
-    }
-    
-    // Add timestamp to bypass cache
-    const timestamp = new Date().getTime();
-    const separator = cleanPath.includes('?') ? '&' : '?';
-    
-    return `http://localhost:8000${cleanPath}${separator}t=${timestamp}`;
-  };
+   // Fixed getImageUrl function - no dependency on env variable
+   const getImageUrl = (imagePath) => {
+     if (!imagePath || typeof imagePath !== 'string') return null;
+     
+     // If already an external URL, return as is
+     if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+       return imagePath;
+     }
+     
+     // Clean the path
+     let cleanPath = imagePath;
+     
+     // Replace spaces with %20
+     if (cleanPath.includes(' ')) {
+       cleanPath = cleanPath.replace(/ /g, '%20');
+     }
+     
+     // Remove duplicate slashes
+     cleanPath = cleanPath.replace(/\/+/g, '/');
+     
+     // Ensure path starts with /
+     if (!cleanPath.startsWith('/')) {
+       cleanPath = '/' + cleanPath;
+     }
+     
+     // Add timestamp to bypass cache
+     const timestamp = new Date().getTime();
+     const separator = cleanPath.includes('?') ? '&' : '?';
+     
+     const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://school-backend-community-development.onrender.com/api';
+     return `${apiBaseUrl.replace('/api', '')}${cleanPath}${separator}t=${timestamp}`;
+   };
 
   // Get translated content
   const getTranslatedTitle = () => {

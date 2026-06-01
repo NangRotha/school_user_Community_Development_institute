@@ -28,17 +28,18 @@ const Footer = () => {
     }
   };
 
-  // Fixed getLogoUrl function with proper null checks
-  const getLogoUrl = () => {
-    if (!schoolInfo?.logo || logoError) return null;
-    if (typeof schoolInfo.logo !== 'string') return null;
-    let cleanPath = schoolInfo.logo;
-    if (cleanPath.includes(' ')) {
-      cleanPath = cleanPath.replace(/ /g, '%20');
-    }
-    if (cleanPath.startsWith('http')) return cleanPath;
-    return `http://localhost:8000${cleanPath}`;
-  };
+   // Fixed getLogoUrl function with proper null checks
+   const getLogoUrl = () => {
+     if (!schoolInfo?.logo || logoError) return null;
+     if (typeof schoolInfo.logo !== 'string') return null;
+     let cleanPath = schoolInfo.logo;
+     if (cleanPath.includes(' ')) {
+       cleanPath = cleanPath.replace(/ /g, '%20');
+     }
+     if (cleanPath.startsWith('http')) return cleanPath;
+     const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://school-backend-community-development.onrender.com/api';
+     return `${apiBaseUrl.replace('/api', '')}${cleanPath}`;
+   };
 
   const handleSubscribe = (e) => {
     e.preventDefault();

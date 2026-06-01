@@ -16,12 +16,13 @@ const FeaturedNews = ({ news }) => {
   const featuredNews = news[0];
   const otherNews = news.slice(1, 4);
 
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return null;
-    if (imagePath.startsWith('http')) return imagePath;
-    const assetBaseUrl = import.meta.env.VITE_API_URL.replace(/\/api$/, '');
-    return `${assetBaseUrl}${imagePath}`;
-  };
+   const getImageUrl = (imagePath) => {
+     if (!imagePath) return null;
+     if (imagePath.startsWith('http')) return imagePath;
+     const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://school-backend-community-development.onrender.com/api';
+     const assetBaseUrl = apiBaseUrl.replace(/\/api$/, '');
+     return `${assetBaseUrl}${imagePath}`;
+   };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

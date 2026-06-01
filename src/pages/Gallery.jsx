@@ -63,7 +63,7 @@ const Gallery = () => {
     }
     
     // Local URL
-    return `http://localhost:8000${cleanPath}${separator}t=${timestamp}`;
+    return `${import.meta.env.VITE_API_URL.replace('/api', '')}${cleanPath}${separator}t=${timestamp}`;
   };
 
   const filteredGallery = activeCategory === 'all' 

@@ -39,38 +39,39 @@ const Header = () => {
     setScrolled(window.scrollY > 20);
   };
 
-  // Updated getLogoUrl function with timestamp to bypass cache
-  const getLogoUrl = () => {
-    // Get logo from schoolInfo
-    if (!schoolInfo?.logo || logoError) return null;
-    if (typeof schoolInfo.logo !== 'string') return null;
-    
-    let cleanPath = schoolInfo.logo;
-    
-    // Add timestamp to bypass cache
-    const timestamp = new Date().getTime();
-    const separator = cleanPath.includes('?') ? '&' : '?';
-    
-    // If it's already an HTTP URL, return as is with timestamp
-    if (cleanPath.startsWith('http')) {
-      return `${cleanPath}${separator}t=${timestamp}`;
-    }
-    
-    // Clean up local path
-    if (cleanPath.includes(' ')) {
-      cleanPath = cleanPath.replace(/ /g, '%20');
-    }
-    
-    // Remove duplicate slashes
-    cleanPath = cleanPath.replace(/\/+/g, '/');
-    
-    // Ensure path starts with /
-    if (!cleanPath.startsWith('/')) {
-      cleanPath = '/' + cleanPath;
-    }
-    
-    return `http://localhost:8000${cleanPath}${separator}t=${timestamp}`;
-  };
+   // Updated getLogoUrl function with timestamp to bypass cache
+   const getLogoUrl = () => {
+     // Get logo from schoolInfo
+     if (!schoolInfo?.logo || logoError) return null;
+     if (typeof schoolInfo.logo !== 'string') return null;
+     
+     let cleanPath = schoolInfo.logo;
+     
+     // Add timestamp to bypass cache
+     const timestamp = new Date().getTime();
+     const separator = cleanPath.includes('?') ? '&' : '?';
+     
+     // If it's already an HTTP URL, return as is with timestamp
+     if (cleanPath.startsWith('http')) {
+       return `${cleanPath}${separator}t=${timestamp}`;
+     }
+     
+     // Clean up local path
+     if (cleanPath.includes(' ')) {
+       cleanPath = cleanPath.replace(/ /g, '%20');
+     }
+     
+     // Remove duplicate slashes
+     cleanPath = cleanPath.replace(/\/+/g, '/');
+     
+     // Ensure path starts with /
+     if (!cleanPath.startsWith('/')) {
+       cleanPath = '/' + cleanPath;
+     }
+     
+     const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://school-backend-community-development.onrender.com/api';
+     return `${apiBaseUrl.replace('/api', '')}${cleanPath}${separator}t=${timestamp}`;
+   };
 
   const navItems = [
     { name: 'home', path: '/', icon: FiHome },

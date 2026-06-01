@@ -29,45 +29,46 @@ const Events = () => {
     }
   };
 
-  // Improved getImageUrl function with better error handling
-  const getImageUrl = (imagePath) => {
-    console.log('Processing image path:', imagePath);
-    
-    if (!imagePath || typeof imagePath !== 'string') {
-      console.log('No valid image path');
-      return null;
-    }
-    
-    // If empty string or null
-    if (imagePath.trim() === '') {
-      console.log('Empty image path');
-      return null;
-    }
-    
-    let cleanPath = imagePath;
-    
-    // Replace spaces with %20
-    if (cleanPath.includes(' ')) {
-      cleanPath = cleanPath.replace(/ /g, '%20');
-    }
-    
-    // Remove duplicate slashes
-    cleanPath = cleanPath.replace(/\/+/g, '/');
-    
-    // Ensure path starts with /
-    if (!cleanPath.startsWith('/')) {
-      cleanPath = '/' + cleanPath;
-    }
-    
-    // If already has http, return as is
-    if (cleanPath.startsWith('http://') || cleanPath.startsWith('https://')) {
-      return cleanPath;
-    }
-    
-    const fullUrl = `http://localhost:8000${cleanPath}`;
-    console.log('Generated image URL:', fullUrl);
-    return fullUrl;
-  };
+   // Improved getImageUrl function with better error handling
+   const getImageUrl = (imagePath) => {
+     console.log('Processing image path:', imagePath);
+     
+     if (!imagePath || typeof imagePath !== 'string') {
+       console.log('No valid image path');
+       return null;
+     }
+     
+     // If empty string or null
+     if (imagePath.trim() === '') {
+       console.log('Empty image path');
+       return null;
+     }
+     
+     let cleanPath = imagePath;
+     
+     // Replace spaces with %20
+     if (cleanPath.includes(' ')) {
+       cleanPath = cleanPath.replace(/ /g, '%20');
+     }
+     
+     // Remove duplicate slashes
+     cleanPath = cleanPath.replace(/\/+/g, '/');
+     
+     // Ensure path starts with /
+     if (!cleanPath.startsWith('/')) {
+       cleanPath = '/' + cleanPath;
+     }
+     
+     // If already has http, return as is
+     if (cleanPath.startsWith('http://') || cleanPath.startsWith('https://')) {
+       return cleanPath;
+     }
+     
+     const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://school-backend-community-development.onrender.com/api';
+     const fullUrl = `${apiBaseUrl.replace('/api', '')}${cleanPath}`;
+     console.log('Generated image URL:', fullUrl);
+     return fullUrl;
+   };
 
   if (loading) return <LoadingSpinner />;
 

@@ -17,7 +17,8 @@ export const getImageUrl = (imagePath) => {
   }
   
   // Build URL
-  return `http://localhost:8000/${cleanPath}`;
+  const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://school-backend-community-development.onrender.com/api';
+  return `${apiBaseUrl.replace('/api', '')}/${cleanPath}`;
 };
 
 export default getImageUrl;
